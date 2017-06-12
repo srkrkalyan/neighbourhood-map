@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	
+	
+</head>
+
+<body>
+	
+	<div id='heading'><h1>My Neighbourhood Map</h1></div>
+	<div id='selection'>
+		<p>
+    Points Of Interest:
+    <select data-bind="options: availablePlaces"></select>
+</p>
+<div id = 'listings'>
+	<select data-bind="options: allItems"></select>
+</div>
+	<!--div id = 'listings'>
+		<select data-bind="options: allItems"> </select>
+	</div-->
+
+	<!--ul data-bind="foreach: allItems">
+    <li data-bind="value: allItems"></li>
+</ul-->
+ 
+	</div>
+	
+	<div id='map'></div>
+</body>
+
+<script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script async defer 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFm6M65LryyXLGvVJFQL17qn3cHEFJWVw&v=3&libraries=places&callback=initMap">
+</script>
+
+</html>
