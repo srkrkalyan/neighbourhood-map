@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<style>
+			html,
+			body {
+				font-family: Arial, sans-serif;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			#map {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="container">
+			<input id="show_listing" type="button" value="Show Listing">
+			<input id="hide_listing" type="button" value="Hide Listing">
+		</div>
+
+		<div id="map"></div>
+		<script>
+      		var map;
+      		var markers = [];
+      		var info_windows = [];
+      		
+
+
+	      	function initMap()
+	      	{
+	      		var style_blue_essence = 
+				[{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}];
+		        map = new google.maps.Map(document.getElementById('map'), {
+		          center: {lat: 16.5061740, lng: 80.6480150},
+		          zoom: 8,
+		          styles: style_blue_essence
+		        });
+
+		        var locations = [
+		        {name: 'Eluru', location: {lat: 16.7106600,lng: 81.0952430}},
+		        {name: 'Marteru', location: {lat: 16.6268980,lng: 81.7388990}},
+		        {name: 'Tanuku', location: {lat: 16.7571730,lng: 81.6799630}},
+		        {name: 'Vizag', location: {lat: 17.6868160,lng: 83.2184820}}
+		        ];
+
+
+
+		        info_window = new google.maps.InfoWindow();
+
+		        //create a marker for each location, push it to markers array and create an event listener
+
+		        for(i=0;i<locations.length;i++){
+		        	marker = new google.maps.Marker({
+		        		position: locations[i].location,
+		        		animation: google.maps.Animation.DROP,
+		        		title: locations[i].name
+		        	});
+
+		        	markers.push(marker);
+
+		        	marker.addListener('click', function() {
+		        		showInfoWindow(this, info_window);
+		        	});
+		  		 }
+
+		   	
+
+		   document.getElementById("show_listing").addEventListener('click', function(){
+		        	for(i=0;i<markers.length;i++)
+		        	{
+		        		markers[i].setMap(map);
+		        		//markers[i].addListener('click', openInfoWindow(markers[i].title, map, markers[i]));
+		        	}
+		        });
+		    document.getElementById("hide_listing").addEventListener('click', function(){
+		        	for(i=0;i<markers.length;i++)
+		        	{
+		        		markers[i].setMap(null);
+		        	}
+		        });
+
+	
+      		}
+
+      	function showInfoWindow(marker, info_window){
+		   		//info_window.marker = marker;
+		   		info_window.setContent(marker.title);
+		   		info_window.open(map, marker);
+		   	}
+
+
+
+	</script>
+
+	<script async defer 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFm6M65LryyXLGvVJFQL17qn3cHEFJWVw&v=3&callback=initMap">
+    </script>
+	</body>
+</html>

@@ -8,24 +8,25 @@
 
 <body>
 	
-	<div id='heading'><h1>My Neighbourhood Map</h1></div>
-	<div id='selection'>
-		<p>
-    Points Of Interest:
-    <select id ='places' data-bind="options: availablePlaces, value: selectedOptionValue"></select>
-</p>
-<div id = 'listings'>
-	<select multiple="multiple" height="20" data-bind="options:allItems"> </select>
-</div>
+<div id='heading'><h1>My Neighbourhood Map</h1></div>
 
+<div id='search'>
+	<input id ='place_search' data-bind="value: searchString">
+    <!--select id ='places' data-bind="options: availablePlaces, value: selectedOptionValue"></select-->
+	<div id = 'listings'>
+		<select multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
+		<!--ul data-bind="foreach: allPlaces">
+			<li data-bind="value: allPlaces"></li>
+		</ul-->
 	</div>
+</div>
 	
-	<div id='map'></div>
+<div id='map'></div>
 
 </body>
 
 <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
-<script type="text/javascript" src="js/new_script.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 <script async defer 
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFm6M65LryyXLGvVJFQL17qn3cHEFJWVw&v=3&libraries=places&callback=initMap">
 </script>

@@ -23,7 +23,6 @@
 				{"featureType":"water","elementType":"all",
 				"stylers":[{"color":"#7dcdcd"}]}];
 
-				//creating a map instance centered at my_neighbourhood coordinates
 		        map = new google.maps.Map(document.getElementById('map'), {
 		          center: my_neighbourhood,
 		          zoom: 15,
@@ -33,29 +32,32 @@
 		        ko.applyBindings(new myViewModel());
 
 		        function myViewModel(){
-		        	
-		        	this.availablePlaces = ko.observableArray(['bakery', 'cafe', 'restaurant', 'store']); 
-					this.selectedOptionValue = ko.observable('store');
-					
-					this.request = {
-						location: my_neighbourhood,
-						radius: '500',
-						query: this.selectedOptionValue()
-					};
-
+		        	var self = this;
+		        	self.availablePlaces = ko.observableArray(['bakery', 'cafe', 'restaurant', 'store']); 
+					self.selectedOptionValue = ko.observable('cafe'); 
 					allItems = ko.observableArray();
-
-					service = new google.maps.places.PlacesService(map);
-					service.textSearch(this.request,callback);
-
-					function callback(results,status)
-					{
-						for(i=0;i<results.length;i++)
-						{
-							allItems.push(results[i].name);
+					self.searchPlaces = ko.observable();
+					
+					ko.computed(function(){
+						//console.log(self.selectedOptionValue);
+						var request = {
+							location: my_neighbourhood,
+							radius: '500',
+							query: self.selectedOptionValue()
+						};
+						service = new google.maps.places.PlacesService(map);
+						service.textSearch(request,callback);
+						});
+					
+					function callback(results,status){
+							allItems.removeAll();
+							for(i=0;i<results.length;i++){
+								allItems.push(results[i].name);
+								//console.log(results[i].name);
+							}
 						}
-					}
-					}
+				
 				}
+			}
 
 
