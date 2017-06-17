@@ -20,3 +20,13 @@ API used:
 
 2. Four Square API
 	- Services Used: Venues, Venue Search
+
+Installing this app:
+
+This dynamic web page can be access online @  https://srkrkalyan.github.io/neighbourhood-map/
+
+Or, simply download the zip folder of entire repo, unzip the folder and double click index.html file to open in a browser
+
+Dependencies:
+
+To use this app on local machine, it needs knockout js libraries. 'knockout' java script libraries are part of this repo. 
