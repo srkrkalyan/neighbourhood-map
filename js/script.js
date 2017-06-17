@@ -222,8 +222,13 @@
 										'See more info about your selection here ('+
 											'Sourced from Foursquare**)<br><br>'+
 										'No Foursquare info found';
-											}
+											},
+
+									error: function(data){
+										alert('Could not load Foursquare data');
+									}
 									});
+									
 							}
 						else
 							document.getElementById('venue_description').innerHTML = 
