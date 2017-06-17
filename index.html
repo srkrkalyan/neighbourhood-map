@@ -12,12 +12,9 @@
 
 <div id='search'>
 	<input id ='place_search' data-bind="value: searchString">
-    <!--select id ='places' data-bind="options: availablePlaces, value: selectedOptionValue"></select-->
+    
 	<div id = 'listings'>
 		<select multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
-		<!--ul data-bind="foreach: allPlaces">
-			<li data-bind="value: allPlaces"></li>
-		</ul-->
 	</div>
 </div>
 	
@@ -25,6 +22,7 @@
 
 </body>
 
+<script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script async defer 
