@@ -1,24 +1,21 @@
 
       		"use strict";
+      		//global variable 'map'
       		var map;
-      		var info_windows = [];
+
+      		//global object to store my neighbourhood location
       		var my_neighbourhood = {lat: 39.5654000,lng: -104.8760460};
-      		var locations = [];
 
-	      	var placeMarker = function(name,marker){
-	      		this.name = name;
-	      		this.marker = marker;
-	      	}
+	      	//app starts here
 
-	      	var placeMarkersArray = [];
-	      
 	      	function initMap()
 	      	{ 
 	      		
+	      		//declared a 'self' object for easy scope reference
 	      		var self = this;
 	      		
 	      		
-
+	      		//styling for my map
 	      		var style_blue_essence = 
 				[{"featureType":"landscape.natural",
 				"elementType":"geometry.fill","stylers":[{"visibility":"on"},
@@ -34,12 +31,14 @@
 				{"featureType":"water","elementType":"all",
 				"stylers":[{"color":"#7dcdcd"}]}];
 
+		        //creating the map instance
 		        map = new google.maps.Map(document.getElementById('map'), {
 		          center: my_neighbourhood,
 		          zoom: 16,
 		          styles: style_blue_essence
 		        });
 
+		        //request object for google places service api
 		        var request = {
 							location: my_neighbourhood,
 							radius: '80',
@@ -48,6 +47,7 @@
 
 				 
 				
+		        //ViewModel for the app
 		        function myViewModel(){
 
 		        	var self = this;
@@ -55,10 +55,10 @@
 		        	self.placeNames = ko.observableArray();
 		        	self.selectedPlace = ko.observable();
 		        	self.fourSquareData = ko.observable();
-		        	self.infoWindowContent;
+		        	
 		        	self.placeNamesMaster = [];
 		        	self.markers = [];
-	      			self.searchedMarkers = [];
+	      			
 	      			self.clientId = "?client_id=JIFHVGPY2VQFVY25TLXRVLN341QRR305QUUDXDPG33KKVG1I";
 	      			self.clientSecret = "&client_secret=HGWH2DR2PEDMKOK3S4QXYVMDRQD13GCWMO3CERR0QCC211EN";
 	      			self.places = [];
@@ -66,7 +66,7 @@
 	      			self.placesMaster = [];
 
 	      			self.locations = [];
-	      			self.venueDetails = [];
+	      			//self.venueDetails = [];
 
 		        	self.filterList = ko.computed(function(){
 		        		if(typeof (self.searchString()) == "string")
