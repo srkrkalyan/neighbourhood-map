@@ -251,37 +251,7 @@
 	        			}
 					}
 
-					function geofilterMarker(geoResults,geoStatus){
-						if (self.searchedMarkers.length > 0)
-					        	{
-						        	for(var i=0;i<self.searchedMarkers.length;i++)
-						        	{
-						        		self.searchedMarkers[i].setMap(null);
-						        	}
-						        }
-						if (geoStatus == 'OK'){
-
-								var marker;
-								marker = new google.maps.Marker(
-								{
-								position: geoResults[0].geometry.location,
-		        				animation: google.maps.Animation.DROP
-		        				});
-		        				marker.setMap(map);
-		        				marker.addListener('click', toggleBounce);
-		        				function toggleBounce() {
-								  if (marker.getAnimation() !== null) {
-								    marker.setAnimation(null);
-								  } else {
-								    	marker.setAnimation(google.maps.Animation.BOUNCE);
-									}
-								}
-		        				self.searchedMarkers.push(marker);
-	        			}
-
-	        			else
-	        				window.alert('Sorry ! Google did not place any marker for this location to highlight');
-					}
+				
 
 					function filterPlaces(placeNames,searchString){
 						if (self.placeNamesMaster.indexOf(searchString) != -1)
@@ -289,14 +259,12 @@
 								
 								var index = self.placeNamesMaster.indexOf(searchString);
 								self.placeNames.removeAll();
-								
 								self.placeNames.push(self.searchString);
-								var geocoding_service = new google.maps.Geocoder();
-								geocoding_service.geocode({'placeId': self.placeIdsMaster[index]},geofilterMarker);
 								for(var i=0;i<self.markers.length;i++)
 					        	{
 					        		self.markers[i].setMap(null);
 					        	}
+					        	self.markers[index].setMap(map);
 
 
 							}
@@ -312,8 +280,6 @@
 					        	}
 						}
 					}
-
-					
 
 					function getVenueIds(placeResult){
 						
