@@ -206,18 +206,6 @@
 					function updateFourSquareData(data){
 						self.fourSquareData = data;
 					}
-					
-
-					function setInfoWindow(marker){
-						var index = self.markers.indexOf(marker);
-						var venueId = self.places[index].venueId;
-						getVenueDetails(venueId,'1');
-						this.info_window = new google.maps.InfoWindow();
-						this.info_window.setContent(self.infoWindowContent);
-		   				this.info_window.open(map, marker);
-					}
-
-
 
 					function geoCallback(geoResults,geoStatus){
 						
@@ -256,7 +244,6 @@
 					function filterPlaces(placeNames,searchString){
 						if (self.placeNamesMaster.indexOf(searchString) != -1)
 							{	
-								
 								var index = self.placeNamesMaster.indexOf(searchString);
 								self.placeNames.removeAll();
 								self.placeNames.push(self.searchString);
@@ -265,11 +252,10 @@
 					        		self.markers[i].setMap(null);
 					        	}
 					        	self.markers[index].setMap(map);
-
-
 							}
 						else
 						{
+							window.alert('No match found!!!');
 							self.placeNames.removeAll();
 							for(var k=0;k<self.placeNamesMaster.length;k++){
 								self.placeNames.push(self.placeNamesMaster[k]);
