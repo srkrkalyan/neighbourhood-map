@@ -51,6 +51,8 @@
 		        function myViewModel(){
 
 		        	var self = this;
+
+		        	//Objects binded to View using Knockout
 		        	self.searchString = ko.observable();
 		        	self.placeNames = ko.observableArray();
 		        	self.selectedPlace = ko.observable();
@@ -59,14 +61,17 @@
 		        	self.placeNamesMaster = [];
 		        	self.markers = [];
 	      			
+	      			//FourSquar authetication details
 	      			self.clientId = "?client_id=JIFHVGPY2VQFVY25TLXRVLN341QRR305QUUDXDPG33KKVG1I";
 	      			self.clientSecret = "&client_secret=HGWH2DR2PEDMKOK3S4QXYVMDRQD13GCWMO3CERR0QCC211EN";
+	      			
 	      			self.places = [];
 	      			self.venueId = [];
 	      			self.placesMaster = [];
 
 	      			self.locations = [];
-	      			//self.venueDetails = [];
+
+	      			//function triggered when a search string is provided
 
 		        	self.filterList = ko.computed(function(){
 		        		if(typeof (self.searchString()) == "string")
@@ -74,6 +79,7 @@
 		        	}, this);
 
 
+		        	//function triggered when a list item is selected
 					self.selectListItem = ko.computed(function(){
 						if(self.selectedPlace()){
 							var index = self.placeNamesMaster.indexOf(self.selectedPlace()[0]);
@@ -100,6 +106,8 @@
 						
 					}
 					
+					//Dynamically building the model for this app
+
 					function buildModel(placeResult, index){
 						self.places.push({
 							name: placeResult.name,
@@ -127,6 +135,8 @@
 
 					}
 
+					//function to display four square info on clicking a marker
+
 					function alertVenueDescription(marker){
 						for(var i=0;i<self.places.length;i++){
 							if((self.places[i].lat == marker.position.lat())&&
@@ -137,6 +147,8 @@
 						}
 
 					}
+
+					//logic to filter places and markers based on search string
 
 					function filterPlacesNew(searchString){
 
@@ -207,39 +219,7 @@
 						self.fourSquareData = data;
 					}
 
-					function geoCallback(geoResults,geoStatus){
-						
-						if (geoStatus == 'OK')
-						{
-								var marker;
-								marker = new google.maps.Marker(
-								{
-								position: geoResults[0].geometry.location,
-		        				animation: google.maps.Animation.DROP
-		        				});
-		        				marker.addListener('click', toggleBounce);
-		        				self.locations.push({
-		        					lat: geoResults[0].geometry.location.lat(),
-		        					lng: geoResults[0].geometry.location.lng()
-								});
-		        				
-
-		        				function toggleBounce() {
-								  if (marker.getAnimation() !== null) {
-								    marker.setAnimation(null);
-								  } else {
-								    	marker.setAnimation(google.maps.Animation.BOUNCE);
-									}
-								}
-								
-		        				self.markers.push(marker);
-		        				self.markersMaster.push(marker);
-		        				marker.setMap(map);
-		        				
-	        			}
-					}
-
-				
+					
 
 					function filterPlaces(placeNames,searchString){
 						if (self.placeNamesMaster.indexOf(searchString) != -1)
