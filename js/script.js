@@ -1,5 +1,5 @@
 
-      		"use strict";
+      		//"use strict";
 
       		//global variable 'map'
       		var map;
@@ -10,10 +10,10 @@
 	      	//app starts here
 
 	      	function initMap()
-	      	{ 
+	      	{ 	'use strict';
 	      		
 	      		//declared a 'self' object for easy scope reference
-	      		var self = this;
+	      		//var self;
 	      		
 	      		
 	      		//styling for my map
@@ -96,9 +96,8 @@
 							self.markers[index].setAnimation(
 								google.maps.Animation.BOUNCE);
 							setTimeout(function(){ 
-								self.markers[index].setAnimation(null)}, 1000);
-								
-							getVenueDetails(self.places[index].venueId);
+								self.markers[index].setAnimation(null);}, 1000);
+								getVenueDetails(self.places[index].venueId);
 						}
 					});
 
@@ -134,7 +133,7 @@
 							alertVenueDescription(marker);
 							marker.setAnimation(google.maps.Animation.BOUNCE);
 							setTimeout(function(){ 
-								marker.setAnimation(null)}, 1000);
+								marker.setAnimation(null);}, 1000);
 						});
 
 						self.markers.push(marker);
@@ -262,9 +261,9 @@
 							for(var k=0;k<self.placeNamesMaster.length;k++){
 								self.placeNames.push(self.placeNamesMaster[k]);
 							}
-							for(var i=0;i<self.markers.length;i++)
+							for(var m=0;m<self.markers.length;m++)
 					        	{
-					        		self.markers[i].setMap(map);
+					        		self.markers[m].setMap(map);
 					        	}
 						}
 					}
@@ -277,7 +276,7 @@
 							var url = 
 							"https://api.foursquare.com/v2/venues/search"+
 							self.clientId+self.clientSecret+"&v=20130815&ll="+
-							lat+","+lng
+							lat+","+lng;
 							$.ajax({
 								type: "GET",
 								dataType: 'json',
@@ -303,12 +302,12 @@
 
 											}
 										}
-										if (match == 0)
+										if (match === 0)
 											self.venueId.push(undefined);
-											for(var i=0;i<self.places.length;i++){
-													if(self.places[i].name == name)
+											for(var c=0;c<self.places.length;c++){
+													if(self.places[c].name == name)
 													{
-														self.places[i].venueId = undefined;
+														self.places[c].venueId = undefined;
 														break;
 													}
 												}
