@@ -2,10 +2,8 @@
       		"use strict";
       		var map;
       		var info_windows = [];
-      		var my_neighbourhood = {lat: 39.5364820,lng: -104.8970680};
+      		var my_neighbourhood = {lat: 39.5654000,lng: -104.8760460};
       		var locations = [];
-      		//var placeNames = [];
-	      	
 
 	      	var placeMarker = function(name,marker){
 	      		this.name = name;
@@ -38,7 +36,7 @@
 
 		        map = new google.maps.Map(document.getElementById('map'), {
 		          center: my_neighbourhood,
-		          zoom: 15,
+		          zoom: 16,
 		          styles: style_blue_essence
 		        });
 
@@ -53,16 +51,13 @@
 		        function myViewModel(){
 
 		        	var self = this;
-		        	//self.info_window = new google.maps.InfoWindow();
 		        	self.searchString = ko.observable();
 		        	self.placeNames = ko.observableArray();
 		        	self.selectedPlace = ko.observable();
+		        	self.fourSquareData = ko.observable();
 		        	self.infoWindowContent;
 		        	self.placeNamesMaster = [];
-		        	//self.placeIdsMaster = [];
-		        	//self.placeIds = [];
 		        	self.markers = [];
-	      			//self.markersMaster = [];
 	      			self.searchedMarkers = [];
 	      			self.clientId = "?client_id=JIFHVGPY2VQFVY25TLXRVLN341QRR305QUUDXDPG33KKVG1I";
 	      			self.clientSecret = "&client_secret=HGWH2DR2PEDMKOK3S4QXYVMDRQD13GCWMO3CERR0QCC211EN";
@@ -75,17 +70,9 @@
 
 		        	self.filterList = ko.computed(function(){
 		        		if(typeof (self.searchString()) == "string")
-		        		//filterPlaces(self.placeNames,self.searchString());
 		        	    filterPlacesNew(self.searchString());
 		        	}, this);
 
-		        	/*self.selectListItem = ko.computed(function(){
-		        		if (self.selectedPlace()){
-		        			var index = self.placeNamesMaster.indexOf(self.selectedPlace()[0]);
-		        			var geocoding_service = new google.maps.Geocoder();
-							geocoding_service.geocode({'placeId': self.placeIdsMaster[index]},geoSelectedMarker);
-				        }
-		        	},this);*/
 
 					self.selectListItem = ko.computed(function(){
 						if(self.selectedPlace()){
@@ -93,31 +80,15 @@
 							self.markers.forEach(function(item,index){
 								item.setMap(null);
 							});
-							console.log(index);
+							map.setCenter(self.markers[index].getPosition());
 							self.markers[index].setMap(map);
 							self.markers[index].setAnimation(google.maps.Animation.BOUNCE);
+							setTimeout(function(){ 
+								self.markers[index].setAnimation(null)}, 1000);
+								
 							getVenueDetails(self.places[index].venueId);
 						}
 					});
-
-		        	
-
-		        	/*function geoSelectedMarker(geoResults,geoStatus){
-		        		if (geoStatus == 'OK'){
-		        				for(var j=0; j<self.markers.length;j++){
-		        					if (self.markers[j].getPosition().equals(geoResults[0].geometry.location)){
-		        						console.log('Matched');
-		        						//self.markers[j].setAnimation(google.maps.Animation.BOUNCE);
-		        						self.markers[j].setOptions()
-		        						return;
-		        					}
-		        				}
-	        			}
-
-	        			else
-	        				window.alert('Sorry ! Google did not place any marker for this location to highlight');
-
-		        	}*/
 
 		        	var service = new google.maps.places.PlacesService(map);
 					service.textSearch(request,placesCallback);
@@ -127,15 +98,8 @@
 						results.forEach(buildModel);
 						self.placesMaster = self.places;
 						
-						//console.log(self.placesMaster);
-						//console.log(self.venueDetails);	
-
-						
 					}
 					
-
-					//console.log(self.venueDetails);
-
 					function buildModel(placeResult, index){
 						self.places.push({
 							name: placeResult.name,
@@ -152,71 +116,26 @@
 									animation: google.maps.Animation.DROP,
 									map: map});
 						
-						marker.addListener('click', function() {
-							for(var i=0;i<self.places.length;i++){
-								if(self.places[i].lat == marker.position.lat()){
-									window.alert(self.venueId[i]);
-									getVenueDetails(self.venueId[i]);
-								}
-							}
+						marker.addListener('click', function(){
+							alertVenueDescription(marker);
+							marker.setAnimation(google.maps.Animation.BOUNCE);
+							setTimeout(function(){ 
+								marker.setAnimation(null)}, 1000);
 						});
+
 						self.markers.push(marker);
+
 					}
 
-					
-
-					function getVenueDetails(venueId,status){
-						if(venueId){
-								var url = "https://api.foursquare.com/v2/venues/"+venueId+self.clientId+self.clientSecret+"&v=20130815";
-								$.ajax({
-									type: "GET",
-									dataType: 'json',
-									cache: false,
-									url: url,
-									async: true,
-									success: function(data,test) {
-											window.alert(data.response.venue.description);
-									}
-								});
+					function alertVenueDescription(marker){
+						for(var i=0;i<self.places.length;i++){
+							if((self.places[i].lat == marker.position.lat())&&
+								(self.places[i].lng == marker.position.lng())){
+								var info_window = new google.maps.InfoWindow();
+								getVenueDetails(self.places[i].venueId);
 							}
-						else
-							window.alert("foursquare does not have any info about this place");
-					}
-
-					function getVenueDetailsNew(venue_id){
-						if(venue_id){
-							//console.log(venue_id);
-							var url = "https://api.foursquare.com/v2/venues/"+venue_id+self.clientId+self.clientSecret+"&v=20130815";
-							$.ajax({
-								type: "GET",
-								dataType: 'json',
-								cache: false,
-								url: url,
-								async: true,
-								success: function(data,test) {
-									self.venueDetails.push({
-										venue_id: venue_id,
-										venue_description: data.response.venue.description});
-								}
-							});
 						}
-						else
-							{
-							self.venueDetails.push({
-										venue_id: venue_id,
-										venue_description: "foursquare does not have any info about this place"});
-						}
-							
-					}
-					
 
-					function setInfoWindow(marker){
-						var index = self.markers.indexOf(marker);
-						var venueId = self.places[index].venueId;
-						getVenueDetails(venueId,'1');
-						this.info_window = new google.maps.InfoWindow();
-						this.info_window.setContent(self.infoWindowContent);
-		   				this.info_window.open(map, marker);
 					}
 
 					function filterPlacesNew(searchString){
@@ -231,8 +150,10 @@
 								self.markers.forEach(function(item,index){
 									item.setMap(null);
 								});
+								map.setCenter(self.markers[index].getPosition());
 								self.markers[index].setMap(map);
 								self.markers[index].setAnimation(google.maps.Animation.DROP);
+								alertVenueDescription(self.markers[index]);
 
 							}
 						else
@@ -245,9 +166,58 @@
 								item.setMap(map);
 								item.setAnimation(null);
 							});
+							document.getElementById('venue_description').innerHTML = 
+								"See more info about your selection here (Sourced from Foursquare**)<br><br>"
 						}
 
 		        	}
+
+					//call foursquare API venues service to fetch description of a venu
+					//input: venueId
+					//output: updates DOM element with venue description retrieved using foursquare venues API
+
+					function getVenueDetails(venueId,status){
+						if(venueId){
+								var url = "https://api.foursquare.com/v2/venues/"+venueId+self.clientId+self.clientSecret+"&v=20130815";
+								$.ajax({
+									type: "GET",
+									dataType: 'json',
+									cache: false,
+									url: url,
+									async: true,
+									success: function(data,test) {
+												if(data.response.venue.description)
+													document.getElementById('venue_description').innerHTML = 
+													"See more info about your selection here (Sourced from Foursquare**)<br><br>"+
+													data.response.venue.description;
+												else
+													document.getElementById('venue_description').innerHTML = 
+													"See more info about your selection here (Sourced from Foursquare**)<br><br>"+
+													'No Foursquare info found';
+											}
+									});
+							}
+						else
+							document.getElementById('venue_description').innerHTML = 
+							"See more info about your selection here (Sourced from Foursquare**)<br><br>"+
+							"Foursquare do not have any valid description";
+					}
+
+					function updateFourSquareData(data){
+						self.fourSquareData = data;
+					}
+					
+
+					function setInfoWindow(marker){
+						var index = self.markers.indexOf(marker);
+						var venueId = self.places[index].venueId;
+						getVenueDetails(venueId,'1');
+						this.info_window = new google.maps.InfoWindow();
+						this.info_window.setContent(self.infoWindowContent);
+		   				this.info_window.open(map, marker);
+					}
+
+
 
 					function geoCallback(geoResults,geoStatus){
 						
@@ -382,15 +352,12 @@
 															if(self.places[i].name == name)
 															{
 																self.places[i].venueId = undefined;
-																
 																break;
 															}
 														}
 										}
 										
 						});
-
-
 					}
 	}
 				ko.applyBindings(new myViewModel());

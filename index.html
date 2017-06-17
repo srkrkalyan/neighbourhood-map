@@ -14,7 +14,11 @@
 	<input id ='place_search' data-bind="value: searchString">
     
 	<div id = 'listings'>
-		<select multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
+		<select id = 'list_box' multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
+	</div>
+	<div id ='api_content'>
+	<!--p id= 'venue_description'></p-->
+	<p id= 'venue_description'>See more info about your selected here (Sourced from Foursquare**)</p>
 	</div>
 </div>
 	
