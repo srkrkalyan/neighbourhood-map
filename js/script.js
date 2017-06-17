@@ -1,5 +1,6 @@
 
       		"use strict";
+
       		//global variable 'map'
       		var map;
 
@@ -62,8 +63,10 @@
 		        	self.markers = [];
 	      			
 	      			//FourSquar authetication details
-	      			self.clientId = "?client_id=JIFHVGPY2VQFVY25TLXRVLN341QRR305QUUDXDPG33KKVG1I";
-	      			self.clientSecret = "&client_secret=HGWH2DR2PEDMKOK3S4QXYVMDRQD13GCWMO3CERR0QCC211EN";
+	      			self.clientId = 
+	      			"?client_id=JIFHVGPY2VQFVY25TLXRVLN341QRR305QUUDXDPG33KKVG1I";
+	      			self.clientSecret = 
+	      			"&client_secret=HGWH2DR2PEDMKOK3S4QXYVMDRQD13GCWMO3CERR0QCC211EN";
 	      			
 	      			self.places = [];
 	      			self.venueId = [];
@@ -82,13 +85,16 @@
 		        	//function triggered when a list item is selected
 					self.selectListItem = ko.computed(function(){
 						if(self.selectedPlace()){
-							var index = self.placeNamesMaster.indexOf(self.selectedPlace()[0]);
+							var index = 
+							self.placeNamesMaster.indexOf(
+								self.selectedPlace()[0]);
 							self.markers.forEach(function(item,index){
 								item.setMap(null);
 							});
 							map.setCenter(self.markers[index].getPosition());
 							self.markers[index].setMap(map);
-							self.markers[index].setAnimation(google.maps.Animation.BOUNCE);
+							self.markers[index].setAnimation(
+								google.maps.Animation.BOUNCE);
 							setTimeout(function(){ 
 								self.markers[index].setAnimation(null)}, 1000);
 								
@@ -155,7 +161,8 @@
 		        		if (self.placeNamesMaster.indexOf(searchString) != -1)
 							{	
 								
-								var index = self.placeNamesMaster.indexOf(searchString);
+								var index = self.placeNamesMaster.indexOf(
+									searchString);
 								self.placeNames.removeAll();
 								
 								self.placeNames.push(self.searchString);
@@ -164,7 +171,8 @@
 								});
 								map.setCenter(self.markers[index].getPosition());
 								self.markers[index].setMap(map);
-								self.markers[index].setAnimation(google.maps.Animation.DROP);
+								self.markers[index].setAnimation(
+									google.maps.Animation.DROP);
 								alertVenueDescription(self.markers[index]);
 
 							}
@@ -178,8 +186,10 @@
 								item.setMap(map);
 								item.setAnimation(null);
 							});
-							document.getElementById('venue_description').innerHTML = 
-								"See more info about your selection here (Sourced from Foursquare**)<br><br>"
+							document.getElementById(
+								'venue_description').innerHTML = 
+							'See more info about your selection here'+
+							'(Sourced from Foursquare**)<br><br>';
 						}
 
 		        	}
@@ -190,29 +200,36 @@
 
 					function getVenueDetails(venueId,status){
 						if(venueId){
-								var url = "https://api.foursquare.com/v2/venues/"+venueId+self.clientId+self.clientSecret+"&v=20130815";
+								var url = "https://api.foursquare.com/v2/venues/"+
+								venueId+self.clientId+self.clientSecret+"&v=20130815";
 								$.ajax({
 									type: "GET",
 									dataType: 'json',
 									cache: false,
 									url: url,
 									async: true,
-									success: function(data,test) {
-												if(data.response.venue.description)
-													document.getElementById('venue_description').innerHTML = 
-													"See more info about your selection here (Sourced from Foursquare**)<br><br>"+
-													data.response.venue.description;
-												else
-													document.getElementById('venue_description').innerHTML = 
-													"See more info about your selection here (Sourced from Foursquare**)<br><br>"+
-													'No Foursquare info found';
+									success: 
+									    function(data,test) 
+										{
+										if(data.response.venue.description)
+										document.getElementById(
+										'venue_description').innerHTML =
+										'See more info about your selection here ('+
+											'Sourced from Foursquare**)<br><br>'+
+										data.response.venue.description;
+										else
+										document.getElementById('venue_description').innerHTML = 
+										'See more info about your selection here ('+
+											'Sourced from Foursquare**)<br><br>'+
+										'No Foursquare info found';
 											}
 									});
 							}
 						else
 							document.getElementById('venue_description').innerHTML = 
-							"See more info about your selection here (Sourced from Foursquare**)<br><br>"+
-							"Foursquare do not have any valid description";
+							'See more info about your selection here'+
+							'(Sourced from Foursquare**)<br><br>'+
+							'Foursquare do not have any valid description';
 					}
 
 					function updateFourSquareData(data){
@@ -252,7 +269,10 @@
 							var name = placeResult.name;
 							var lat = placeResult.geometry.location.lat();
 							var lng = placeResult.geometry.location.lng();
-							var url = "https://api.foursquare.com/v2/venues/search"+self.clientId+self.clientSecret+"&v=20130815&ll="+lat+","+lng
+							var url = 
+							"https://api.foursquare.com/v2/venues/search"+
+							self.clientId+self.clientSecret+"&v=20130815&ll="+
+							lat+","+lng
 							$.ajax({
 								type: "GET",
 								dataType: 'json',
@@ -260,35 +280,34 @@
 								url: url,
 								async: true,
 								success: function(data) {
-												var match = 0;
-												for(var k=0;k<data.response.venues.length;k++)
-												{
-													if(data.response.venues[k].name == name){
-														for(var i=0;i<self.places.length;i++){
-															if(self.places[i].name == name)
-															{
-																self.places[i].venueId = data.response.venues[k].id;
+										var match = 0;
+										for(var k=0;k<data.response.venues.length;k++)
+										{
+											if(data.response.venues[k].name == name){
+												for(var i=0;i<self.places.length;i++){
+													if(self.places[i].name == name)
+													{
+														self.places[i].venueId = data.response.venues[k].id;
 
-																match = 1;
-																break;
-															}
-														}
-														self.venueId.push(data.response.venues[k].id);
-														return;
-
+														match = 1;
+														break;
 													}
 												}
-												if (match == 0)
-													self.venueId.push(undefined);
-													for(var i=0;i<self.places.length;i++){
-															if(self.places[i].name == name)
-															{
-																self.places[i].venueId = undefined;
-																break;
-															}
-														}
+												self.venueId.push(data.response.venues[k].id);
+												return;
+
+											}
 										}
-										
+										if (match == 0)
+											self.venueId.push(undefined);
+											for(var i=0;i<self.places.length;i++){
+													if(self.places[i].name == name)
+													{
+														self.places[i].venueId = undefined;
+														break;
+													}
+												}
+								}
 						});
 					}
 	}
