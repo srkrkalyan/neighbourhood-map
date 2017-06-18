@@ -1,6 +1,4 @@
 
-      		//"use strict";
-
       		//global variable 'map'
       		var map;
 
@@ -10,12 +8,7 @@
 	      	//app starts here
 
 	      	function initMap()
-	      	{ 	'use strict';
-	      		
-	      		//declared a 'self' object for easy scope reference
-	      		//var self;
-	      		
-	      		
+	      	{ 	
 	      		//styling for my map
 	      		var style_blue_essence = 
 				[{"featureType":"landscape.natural",
