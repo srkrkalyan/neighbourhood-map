@@ -155,7 +155,6 @@ function initMap()
 				if((self.places[i].lat == marker.position.lat())&&
 					(self.places[i].lng == marker.position.lng()))
 				{
-					//var info_window = new google.maps.InfoWindow();
 					getVenueDetails(self.places[i].venueId,marker);
 				}
 			}
