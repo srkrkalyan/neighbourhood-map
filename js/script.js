@@ -155,7 +155,7 @@ function initMap()
 				if((self.places[i].lat == marker.position.lat())&&
 					(self.places[i].lng == marker.position.lng()))
 				{
-					var info_window = new google.maps.InfoWindow();
+					//var info_window = new google.maps.InfoWindow();
 					getVenueDetails(self.places[i].venueId,marker);
 				}
 			}
@@ -171,8 +171,7 @@ function initMap()
 					});
 			for(var counter=0;counter<self.placeNamesMaster.length;counter++)
 			{
-				if (self.placeNamesMaster[counter].indexOf(self.searchString())
-				 != -1)
+				if (self.placeNamesMaster[counter].indexOf(self.searchString())!= -1)
 				{
 					self.placeNames.push(self.placeNamesMaster[counter]);
 					self.markers[counter].setMap(map);
@@ -187,9 +186,9 @@ function initMap()
 		
 		function getVenueDetails(venueId,marker)
 		{
+			var info_window = new google.maps.InfoWindow();
 			if(venueId)
 			{
-					var info_window = new google.maps.InfoWindow();
 					var url = "https://api.foursquare.com/v2/venues/"+
 					venueId+self.clientId+self.clientSecret+"&v=20130815";
 					$.ajax({
@@ -203,10 +202,9 @@ function initMap()
 							{
 								if(data.response.venue.description)
 								{
-									info_window.setContent(
-										'<p>'+
-										data.response.venue.description
-										+'</p>');
+									info_window.setContent('<p>'+
+										data.response.venue.description+
+										'</p>');
 									info_window.open(map, marker);
 								}
 								else
@@ -224,7 +222,6 @@ function initMap()
 						
 				}
 			else
-				var info_window = new google.maps.InfoWindow();
 				{
 					info_window.setContent(
 						'No info found on Foursquare about this place,sorry!');
