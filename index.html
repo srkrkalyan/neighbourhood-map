@@ -12,12 +12,13 @@
 		
 		<div id='heading'><h1>My Neighbourhood Map</h1></div>
 		<div id='search'>
-			<input id ='place_search' data-bind="value: searchString">
+			<input id ='place_search' data-bind="textInput: searchString, valueUpdate: 'afterkeydown'">
 		    <div id = 'listings'>
 				<select id = 'list_box' multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
 			</div>
 			<div id ='api_content'>
 				<p id= 'venue_description'>See more info about your selected here (Sourced from Foursquare**)</p>
+				<p data-bind="text: fourSquareInfo"></p>
 			</div>
 		</div>
 		<div id='map'></div>

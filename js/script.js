@@ -47,10 +47,10 @@
 		        	var self = this;
 
 		        	//Objects binded to View using Knockout
-		        	self.searchString = ko.observable();
+		        	self.searchString = ko.observable("");
 		        	self.placeNames = ko.observableArray();
 		        	self.selectedPlace = ko.observable();
-		        	self.fourSquareData = ko.observable();
+		        	self.fourSquareInfo = ko.observable();
 		        	
 		        	self.placeNamesMaster = [];
 		        	self.markers = [];
@@ -71,7 +71,7 @@
 
 		        	self.filterList = ko.computed(function(){
 		        		if(typeof (self.searchString()) == "string")
-		        	    filterPlacesNew(self.searchString());
+		        		filterPlaces(self.searchString());
 		        	}, this);
 
 
@@ -147,45 +147,21 @@
 
 					}
 
-					//logic to filter places and markers based on search string
 
-					function filterPlacesNew(searchString){
-
-		        		if (self.placeNamesMaster.indexOf(searchString) != -1)
-							{	
-								
-								var index = self.placeNamesMaster.indexOf(
-									searchString);
-								self.placeNames.removeAll();
-								
-								self.placeNames.push(self.searchString);
-								self.markers.forEach(function(item,index){
+					function filterPlaces()
+					{
+						self.placeNames.removeAll();
+						self.markers.forEach(function(item,index){
 									item.setMap(null);
 								});
-								map.setCenter(self.markers[index].getPosition());
-								self.markers[index].setMap(map);
-								self.markers[index].setAnimation(
-									google.maps.Animation.DROP);
-								alertVenueDescription(self.markers[index]);
-
+						for(var counter=0;counter<self.placeNamesMaster.length;counter++){
+							if (self.placeNamesMaster[counter].indexOf(self.searchString()) != -1)
+							{
+								self.placeNames.push(self.placeNamesMaster[counter]);
+								self.markers[counter].setMap(map);
 							}
-						else
-						{
-							self.placeNames.removeAll();
-							for(var k=0;k<self.placeNamesMaster.length;k++){
-								self.placeNames.push(self.placeNamesMaster[k]);
-							}
-							self.markers.forEach(function(item,index){
-								item.setMap(map);
-								item.setAnimation(null);
-							});
-							document.getElementById(
-								'venue_description').innerHTML = 
-							'See more info about your selection here'+
-							'(Sourced from Foursquare**)<br><br>';
 						}
-
-		        	}
+					}
 
 					//call foursquare API venues service to fetch description of a venu
 					//input: venueId
@@ -210,6 +186,7 @@
 										'See more info about your selection here ('+
 											'Sourced from Foursquare**)<br><br>'+
 										data.response.venue.description;
+										//self.fourSquareInfo = 'Only MVVM';
 										else
 										document.getElementById('venue_description').innerHTML = 
 										'See more info about your selection here ('+
@@ -230,13 +207,9 @@
 							'Foursquare do not have any valid description';
 					}
 
-					function updateFourSquareData(data){
-						self.fourSquareData = data;
-					}
-
 					
 
-					function filterPlaces(placeNames,searchString){
+				/*	function filterPlaces(placeNames,searchString){
 						if (self.placeNamesMaster.indexOf(searchString) != -1)
 							{	
 								var index = self.placeNamesMaster.indexOf(searchString);
@@ -260,7 +233,7 @@
 					        		self.markers[m].setMap(map);
 					        	}
 						}
-					}
+					}*/
 
 					function getVenueIds(placeResult){
 						
