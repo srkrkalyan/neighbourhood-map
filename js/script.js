@@ -95,7 +95,7 @@ function initMap()
 					self.selectedPlace()[0]);
 				if(self.markers[index])
 				{
-					map.setCenter(self.markers[index].getPosition());
+					map.panTo(self.markers[index].getPosition());
 					self.markers[index].setMap(map);
 					self.markers[index].setAnimation(
 						google.maps.Animation.BOUNCE);
@@ -137,9 +137,8 @@ function initMap()
 			
 			marker.addListener('click', function(){
 				alertVenueDescription(marker);
-				//getVenueDetails(marker);
 				marker.setAnimation(google.maps.Animation.BOUNCE);
-				map.setCenter(marker.getPosition());
+				map.panTo(marker.getPosition());
 				setTimeout(function(){ 
 					marker.setAnimation(null);}, 1400);
 			});
@@ -205,7 +204,9 @@ function initMap()
 								if(data.response.venue.description)
 								{
 									info_window.setContent(
-										data.response.venue.description);
+										'<p>'+
+										data.response.venue.description
+										+'</p>');
 									info_window.open(map, marker);
 								}
 								else
