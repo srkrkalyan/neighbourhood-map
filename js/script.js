@@ -81,15 +81,15 @@
 							var index = 
 							self.placeNamesMaster.indexOf(
 								self.selectedPlace()[0]);
-							self.markers.forEach(function(item,index){
+							/*self.markers.forEach(function(item,index){
 								item.setMap(null);
-							});
+							});*/
 							map.setCenter(self.markers[index].getPosition());
 							self.markers[index].setMap(map);
 							self.markers[index].setAnimation(
 								google.maps.Animation.BOUNCE);
 							setTimeout(function(){ 
-								self.markers[index].setAnimation(null);}, 1000);
+								self.markers[index].setAnimation(null);}, 1400);
 								getVenueDetails(self.places[index].venueId);
 						}
 					});
@@ -125,8 +125,9 @@
 						marker.addListener('click', function(){
 							alertVenueDescription(marker);
 							marker.setAnimation(google.maps.Animation.BOUNCE);
+							map.setCenter(marker.getPosition());
 							setTimeout(function(){ 
-								marker.setAnimation(null);}, 1000);
+								marker.setAnimation(null);}, 1400);
 						});
 
 						self.markers.push(marker);
