@@ -287,7 +287,12 @@ function initMap()
 			});
 		}
 	}
-		ko.applyBindings(new myViewModel());
+	ko.applyBindings(new myViewModel());
+}
+
+function googleError()
+{
+	alert('Unable to load google maps, check internet connection');
 }
 			
 
