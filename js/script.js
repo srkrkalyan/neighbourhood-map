@@ -1,12 +1,12 @@
 
-      		//global variable 'map'
-      		var map;
+	//global variable 'map'
+	var map;
 
-      		//global object to store my neighbourhood location
-      		var my_neighbourhood = {lat: 39.5654000,lng: -104.8760460};
+	//global object to store my neighbourhood location
+	var my_neighbourhood = {lat: 39.5654000,lng: -104.8760460};
 
-	      	//app starts here
-
+	//app starts here
+	
 	      	function initMap()
 	      	{ 	
 	      		//styling for my map
@@ -90,7 +90,7 @@
 								google.maps.Animation.BOUNCE);
 							setTimeout(function(){ 
 								self.markers[index].setAnimation(null);}, 1400);
-								getVenueDetails(self.places[index].venueId);
+								getVenueDetails(self.places[index].venueId,self.markers[index]);
 						}
 					});
 
@@ -124,6 +124,7 @@
 						
 						marker.addListener('click', function(){
 							alertVenueDescription(marker);
+							//getVenueDetails(marker);
 							marker.setAnimation(google.maps.Animation.BOUNCE);
 							map.setCenter(marker.getPosition());
 							setTimeout(function(){ 
@@ -141,7 +142,7 @@
 							if((self.places[i].lat == marker.position.lat())&&
 								(self.places[i].lng == marker.position.lng())){
 								var info_window = new google.maps.InfoWindow();
-								getVenueDetails(self.places[i].venueId);
+								getVenueDetails(self.places[i].venueId,marker);
 							}
 						}
 
@@ -167,8 +168,10 @@
 					//input: venueId
 					//output: updates DOM element with venue description retrieved using foursquare venues API
 
-					function getVenueDetails(venueId,status){
+					
+					function getVenueDetails(venueId,marker){
 						if(venueId){
+								var info_window = new google.maps.InfoWindow();
 								var url = "https://api.foursquare.com/v2/venues/"+
 								venueId+self.clientId+self.clientSecret+"&v=20130815";
 								$.ajax({
@@ -180,19 +183,17 @@
 									success: 
 									    function(data,test) 
 										{
-										if(data.response.venue.description)
-										document.getElementById(
-										'venue_description').innerHTML =
-										'See more info about your selection here ('+
-											'Sourced from Foursquare**)<br><br>'+
-										data.response.venue.description;
-										//self.fourSquareInfo = 'Only MVVM';
-										else
-										document.getElementById('venue_description').innerHTML = 
-										'See more info about your selection here ('+
-											'Sourced from Foursquare**)<br><br>'+
-										'No Foursquare info found';
-											},
+											if(data.response.venue.description)
+											{
+												info_window.setContent(data.response.venue.description);
+												info_window.open(map, marker);
+											}
+											else
+											{
+												info_window.setContent('No fourSquareInfo found');
+												info_window.open(map, marker);
+											}
+										},
 
 									error: function(data){
 										alert('Could not load Foursquare data');
@@ -201,11 +202,13 @@
 									
 							}
 						else
-							document.getElementById('venue_description').innerHTML = 
-							'See more info about your selection here'+
-							'(Sourced from Foursquare**)<br><br>'+
-							'Foursquare do not have any valid description';
+							var info_window = new google.maps.InfoWindow();
+							{
+								info_window.setContent('No info found on Foursquare about this place, sorry !');
+								info_window.open(map, marker);
+							}
 					}
+
 
 					
 
@@ -278,6 +281,10 @@
 														break;
 													}
 												}
+								},
+								error: function(data,status){
+									alert('Got: '+status+', Unable to reach Foursquare service. Check console log for more details');
+									console.log(data);
 								}
 						});
 					}
