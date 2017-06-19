@@ -1,14 +1,11 @@
-html, body {
-   height: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body {
+    height: 100%;
+	margin: 0;
+	padding: 0;
   }
 
-#container{
-	overflow: scroll;
-}
-
-#search{
+#search {
 	height: 100%;
 	width: 30%;
 	float: left;
@@ -17,56 +14,39 @@ html, body {
 	overflow: scroll;
 }
 
-#map{
+#map {
 	height: 100%;
 	width: 70%;
 	float: left;
 }
 
-#heading{
+#heading {
 	text-align: center;
 }
 
-#place_search {
+#place-search {
     height: 25px;
     width: 100%;
-    border: 1px solid #B9BDC1;
+    border: 1px solid #b9bdc1;
     color: #797979;
     -moz-box-shadow: 0 2px 4px #bbb inset;
-    -webkit-box-shadow: 0 2px 4px #BBB inset;
-    box-shadow: 0 2px 4px #BBB inset;
+    -webkit-box-shadow: 0 2px 4px #bbb inset;
+    box-shadow: 0 2px 4px #bbb inset;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
     overflow: scroll;
 }
- #place_search {
-    background-color: #E7E8E7;
+ #place-search {
+    background-color: #e7e8e7;
     outline: 0;
     overflow: scroll;
 }
 
- #list_box {
+ #list-box {
  	height: 200px;
  	width: 100%;
- 	border: 1px solid #B9BDC1;
+ 	border: 1px solid #b9bdc1;
     color: #797979;
     overflow: scroll;
- }
-
- #api_content {
- 	height: 25px;
-    width: 100%;
- }
-
- #venue_description {
-	font-weight:normal;
-	font-style:italic;
-	color: black;
-	
-	letter-spacing:1pt;
-	font-size:12px;
-	text-align:justify;
-	font-family:arial, sans-serif;
-	line-height:1;
  }

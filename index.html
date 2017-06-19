@@ -5,24 +5,27 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="css/styles.css">
+		<link rel="stylesheet" href="css/styles.css">
 		<title>Neighbourhood Map</title>
 	</head>
 	<body>
-		
-			<div id='heading'><h1>My Neighbourhood Map</h1></div>
-			<div id='search'>
-				<input id ='place_search' data-bind="textInput: searchString, valueUpdate: 'afterkeydown'">
-			    <div id = 'listings'>
-					<select id = 'list_box' multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
+		<header>
+			<div id="heading"><h1>My Neighbourhood Map</h1></div>
+		</header>
+		<section>
+			<div id="search">
+				<input id ="place-search" data-bind="textInput: searchString, valueUpdate: 'afterkeydown'">
+			    <div id = "listings">
+					<select id = "list-box" multiple="multiple" height="20" data-bind="options: placeNames, selectedOptions:selectedPlace"> </select>
 				</div>
-			<h6>**Place Info powered by FourSquare API</h6>
+				<h6>**Place Info powered by FourSquare API</h6>
 			</div>
-			<div id='map'></div>
+		</section>
+		<div id="map"></div>
 	</body>
 	<script src="https://code.jquery.com/jquery.min.js"></script>
-	<script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>
-	<script type="text/javascript" src="js/script.js"></script>
+	<script src="bower_components/knockout/dist/knockout.js"></script>
+	<script src="js/script.js"></script>
 	<script async defer 
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFm6M65LryyXLGvVJFQL17qn3cHEFJWVw&v=3&libraries=places&callback=initMap" onerror="googleError()">
 	</script>
